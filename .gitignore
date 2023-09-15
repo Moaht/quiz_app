@@ -17,10 +17,13 @@ output.json
 
 # IntelliJ
 *.iml
+*.ipr
+*.iws
 .idea/
 misc.xml
 deploymentTargetDropDown.xml
 render.experimental.xml
+#.DS_Store
 
 # Keystore files
 *.jks
@@ -31,3 +34,7 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# Flutter build stuff
+.dart_tool/
+doc/api/
