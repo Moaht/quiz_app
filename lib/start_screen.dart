@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class StartScreen extends StatelessWidget {
-  const StartScreen({super.key});
+  const StartScreen(this.quizState, {super.key});
+
+  final void Function() quizState;
 
   @override
   Widget build(context) {
@@ -36,7 +38,9 @@ class StartScreen extends StatelessWidget {
                 EdgeInsets.symmetric(vertical: 0.0, horizontal: 40.0),
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              quizState();
+            },
             child: const Text("Let's go!"),
           ),
         ],
