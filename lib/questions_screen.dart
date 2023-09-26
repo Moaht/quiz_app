@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/answer_button.dart';
+import 'package:quiz_app/data/questions.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class QuestionsScreen extends StatefulWidget {
-  const QuestionsScreen({super.key});
+  const QuestionsScreen({super.key, required this.onSelectAnswer});
+
+  final void Function(String answer) onSelectAnswer;
 
   @override
   State<QuestionsScreen> createState() {
@@ -11,25 +15,44 @@ class QuestionsScreen extends StatefulWidget {
 }
 
 class _QuestionsScreenState extends State<QuestionsScreen> {
-  //  ...
+  var currentQuestionIndex = 0;
+
+  void questionIndexHandler(String selectedAnswer) {
+    widget.onSelectAnswer(selectedAnswer);
+    setState(() {
+      currentQuestionIndex++;
+    });
+  }
 
   @override
   Widget build(context) {
-    return SizedBox(
+    final currentQuestion = questions[currentQuestionIndex];
+
+    return Container(
+      margin: const EdgeInsets.all(50),
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'The question...',
-            style: TextStyle(color: Colors.white),
+          Text(
+            currentQuestion.text,
+            style: GoogleFonts.lato(
+              color: Colors.white,
+              fontSize: 22,
+              fontWeight: FontWeight.normal,
+            ),
+            textAlign: TextAlign.center,
           ),
-          const SizedBox(
-            height: 30,
-          ),
-          AnswerButton(answer: "answer 1", whenPressed: () {}),
-          AnswerButton(answer: "answer 2", whenPressed: () {}),
-          AnswerButton(answer: "answer 3", whenPressed: () {}),
+          const SizedBox(height: 30),
+          ...currentQuestion.getShuffledAnswers().map((answerText) {
+            return AnswerButton(
+              answer: answerText,
+              whenPressed: () {
+                questionIndexHandler(answerText);
+              },
+            );
+          }),
         ],
       ),
     );
